@@ -279,7 +279,7 @@ public class Main {
         System.out.println("Period: " + start + " to " + end + " (" + ((days <= 0) ? 1 : days) + " days)");
         System.out.printf("Base price: Rs.%.2f\n", base);
         System.out.printf("Total with tax (incl. %.2f%%): Rs.%.2f\n", rentalSystem.getTaxRate() * 100, total);
-3
+
         System.out.print("Confirm rental? (Y/N): ");
         String confirm = scanner.nextLine().trim();
         if (confirm.equalsIgnoreCase("Y")) rentalSystem.rentCar(carId, customer, start, end, discount);
