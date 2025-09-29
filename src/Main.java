@@ -4,14 +4,6 @@ import java.time.format.DateTimeParseException;
 import java.time.temporal.ChronoUnit;
 import java.util.*;
 
-/*
- * Main.java
- * Compile: javac -encoding UTF-8 Main.java
- * Run:     java -Dfile.encoding=UTF-8 Main
- *
- * Corrected working car rental CLI.
- */
-
 class Car {
     private final String carId;
     private final String brand;
@@ -27,14 +19,26 @@ class Car {
         this.isAvailable = true;
     }
 
-    public String getCarId() { return carId; }
-    public String getBrand() { return brand; }
-    public String getModel() { return model; }
-    public double getBasePricePerDay() { return basePricePerDay; }
+    public String getCarId() {
+        return carId;
+    }
+    public String getBrand() { 
+        return brand;
+    }
+    public String getModel() { 
+        return model;
+    }
+    public double getBasePricePerDay() { 
+        return basePricePerDay; 
+    }
 
-    public double calculateBasePrice(long rentalDays) { return basePricePerDay * rentalDays; }
+    public double calculateBasePrice(long rentalDays) { 
+        return basePricePerDay * rentalDays; 
+    }
 
-    public boolean isAvailable() { return isAvailable; }
+    public boolean isAvailable() { 
+        return isAvailable; 
+    }
     public void rent() { isAvailable = false; }
     public void returnCar() { isAvailable = true; }
 
@@ -88,7 +92,9 @@ class Rental {
 class PricingService {
     private final double taxRate;
 
-    public PricingService(double taxRate) { this.taxRate = taxRate; }
+    public PricingService(double taxRate) { 
+        this.taxRate = taxRate; 
+    }
 
     public double computeTotal(double basePrice, double discountPercent) {
         double afterDiscount = basePrice * (1 - discountPercent / 100.0);
@@ -97,7 +103,9 @@ class PricingService {
         return afterDiscount + tax;
     }
 
-    public double getTaxRate() { return taxRate; }
+    public double getTaxRate() { 
+        return taxRate;
+    }
 }
 
 class CarRentalSystem {
@@ -131,8 +139,12 @@ class CarRentalSystem {
 
     public void rentCar(String carId, Customer customer, LocalDate start, LocalDate end, double discountPercent) {
         Car car = carsById.get(carId);
-        if (car == null) { System.out.println("Invalid car ID."); return; }
-        if (!car.isAvailable()) { System.out.println("Car is not available for rent."); return; }
+        if (car == null) { System.out.println("Invalid car ID."); 
+         return; 
+            }
+        if (!car.isAvailable()) { System.out.println("Car is not available for rent."); 
+         return;
+            }
         Rental rental = new Rental(car, customer, start, end, discountPercent);
         car.rent();
         addCustomer(customer);
@@ -167,7 +179,9 @@ class CarRentalSystem {
 
     public void printActiveRentals() {
         System.out.println("--- Active Rentals ---");
-        if (rentalsByCarId.isEmpty()) { System.out.println("No active rentals."); return; }
+        if (rentalsByCarId.isEmpty()) { System.out.println("No active rentals.");
+        return;
+          }
         for (Rental r : rentalsByCarId.values()) {
             System.out.printf("Car %s -> %s (%s to %s, %d days)\n",
                     r.getCar().getCarId(), r.getCustomer().getName(), r.getStartDate(), r.getEndDate(), r.getDays());
@@ -175,7 +189,9 @@ class CarRentalSystem {
     }
 
     public LocalDate parseDate(String s) {
-        try { return LocalDate.parse(s, dateFormatter); } catch (DateTimeParseException e) { return null; }
+        try { return LocalDate.parse(s, dateFormatter); } catch (DateTimeParseException e) { 
+            return null; 
+        }
     }
 }
 
@@ -241,10 +257,13 @@ public class Main {
         System.out.print("Enter discount percent (0 if none): ");
         double discount = readDoubleMin(0);
 
-        if (start == null || end == null) { System.out.println("Invalid dates provided. Aborting."); return; }
+        if (start == null || end == null) { 
+            System.out.println("Invalid dates provided. Aborting."); return;
+        }
 
         long days = ChronoUnit.DAYS.between(start, end);
-        if (days <= 0) System.out.println("End date must be after start date. Using 1 day minimum.");
+        if (days <= 0)
+            System.out.println("End date must be after start date. Using 1 day minimum.");
 
         Car car = rentalSystem.getCarById(carId);
         if (car == null) { System.out.println("Invalid car ID."); return; }
@@ -281,7 +300,9 @@ public class Main {
                 int val = Integer.parseInt(line.trim());
                 if (val < min || val > max) throw new NumberFormatException();
                 return val;
-            } catch (NumberFormatException e) { System.out.print("Please enter a valid number (" + min + "-" + max + "): "); }
+            } catch (NumberFormatException e) { 
+                System.out.print("Please enter a valid number (" + min + "-" + max + "): ");
+            }
         }
     }
 
